@@ -2,7 +2,6 @@ import "../styles/globals.css";
 import { Inter } from "next/font/google";
 
 import ClientProviders from "./ClientProviders";
-import DisclaimerWrapper from "@/components/DisclaimerWrapper";
 import { Metadata, Viewport } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -10,8 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Riddlr | Onchain Riddles",
   description: "Invest in Tokens Risk-Free. Return it anytime. Get Money Back.",
-  keywords:
-    "riddles",
+  keywords: "riddles",
   metadataBase: new URL("https://riddlr.com"),
   openGraph: {
     title: "Riddlr | Onchain Riddles",
@@ -64,9 +62,7 @@ export default function RootLayout({
     <html lang="en" data-theme="riddlr">
       <body className={inter.className}>
         <ClientProviders>
-          <DisclaimerWrapper>
-            <main className="mb-16 sm:mb-0">{children}</main>
-          </DisclaimerWrapper>
+          <main className="mb-16 sm:mb-0">{children}</main>
         </ClientProviders>
       </body>
     </html>
