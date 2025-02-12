@@ -5,7 +5,7 @@ import { abi as RiddlrAbi } from "@/abi/RiddlrAbi";
 import { readContract, readContracts } from "wagmi/actions";
 import { config } from "@/wagmiConfig";
 import CONSTANTS from "@/utils/constants";
-import { ethers } from "ethers";
+import { ethers, ZeroAddress } from "ethers";
 import SwitchChainButton from "@/components/SwitchChainButton";
 import { useAccount } from "wagmi";
 import { sepolia } from "viem/chains";
@@ -13,6 +13,7 @@ import TransactionButton from "@/components/TransactionButton";
 import useContractTransaction from "@/utils/useContractTransaction";
 import ConnectWalletModal from "@/components/ConnectWalletModal";
 import TextField from "@/components/TextField";
+import { compareEthereumAddresses } from "@/utils/utilFunc";
 
 const { RIDDLR_CONTRACT } = CONSTANTS;
 
@@ -117,19 +118,17 @@ function App() {
     }
   }, [getActiveRiddle]);
 
-  const checkIsActive = async (): Promise<boolean> => {
+  const getWinner = async (): Promise<string> => {
     try {
-      const result = await readContract(config, {
+      return await readContract(config, {
         address: RIDDLR_CONTRACT as `0x${string}`,
         abi: RiddlrAbi,
         chainId: 11155111,
-        functionName: "isActive",
+        functionName: "winner",
       });
-
-      return result;
     } catch (error) {
-      console.error("checkIsActive ERROR:", error);
-      return false;
+      console.error("getWinner ERROR:", error);
+      return ZeroAddress;
     }
   };
 
@@ -146,9 +145,9 @@ function App() {
       // Reset input
       setUserAnswer("");
       // Check answer by fetching isActive
-      const userGaveWrongAnswer = await checkIsActive();
+      const winner = await getWinner();
       // If isActive is false, bot sets new riddle
-      if (!userGaveWrongAnswer) {
+      if (compareEthereumAddresses(connectedAddress, winner)) {
         window.alert("Congratulations! That was the correct answer");
         return await getActiveRiddle();
       } else {
