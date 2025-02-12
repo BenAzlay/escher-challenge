@@ -1,7 +1,6 @@
 "use client";
 
 import { Connector, useConnect, useDisconnect } from "wagmi";
-import useStore from "@/store/useStore";
 import Modal from "@/components/Modal";
 import { FC } from "react";
 
