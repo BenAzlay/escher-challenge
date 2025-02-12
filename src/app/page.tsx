@@ -136,7 +136,7 @@ function App() {
       });
 
       const [winner, isActive] = rawResults.map(({ result }) => result);
-      return !isActive && compareEthereumAddresses(connectedAddress, winner);
+      return !isActive && compareEthereumAddresses(connectedAddress, winner as string);
     } catch (error) {
       console.error("getRiddleSuccess ERROR:", error);
       return false;
