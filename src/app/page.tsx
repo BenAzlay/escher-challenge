@@ -74,8 +74,6 @@ function App() {
       });
 
       const [riddle, isActive] = rawResults.map(({ result }) => result);
-      console.log(`isActive:`, isActive);
-      console.log(`riddle:`, riddle);
 
       // IF there is an active riddle, set it in the store
       if (!!isActive) {
