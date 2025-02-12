@@ -12,6 +12,7 @@ import { sepolia } from "viem/chains";
 import TransactionButton from "@/components/TransactionButton";
 import useContractTransaction from "@/utils/useContractTransaction";
 import ConnectWalletModal from "@/components/ConnectWalletModal";
+import TextField from "@/components/TextField";
 
 const { RIDDLR_CONTRACT } = CONSTANTS;
 
@@ -117,14 +118,14 @@ function App() {
   }, [getActiveRiddle]);
 
   const checkIsActive = async (): Promise<boolean> => {
-    try {  
+    try {
       const result = await readContract(config, {
         address: RIDDLR_CONTRACT as `0x${string}`,
         abi: RiddlrAbi,
         chainId: 11155111,
         functionName: "isActive",
       });
-  
+
       return result;
     } catch (error) {
       console.error("checkIsActive ERROR:", error);
@@ -140,7 +141,7 @@ function App() {
     abi: RiddlrAbi,
     contractAddress: CONSTANTS.RIDDLR_CONTRACT as `0x${string}`,
     functionName: "submitAnswer",
-    args: [userAnswer],
+    args: [userAnswer.toLowerCase()],
     onSuccess: async () => {
       // Reset input
       setUserAnswer("");
@@ -171,7 +172,7 @@ function App() {
     if (connectedChainId !== sepolia.id) return <SwitchChainButton />;
     return (
       <TransactionButton
-        disabled={submitAnswerIsPending || loadingRiddle}
+        disabled={submitAnswerIsPending || loadingRiddle || !userAnswer.length}
         onClickAction={executeSubmitAnswerTransaction}
         loading={submitAnswerIsPending}
         errorMessage={txError}
@@ -183,15 +184,21 @@ function App() {
 
   return (
     <Fragment>
-      <div className="py-12 text-center space-y-6 justify-items-center">
-        <p className="rounded-md glass-bg border-primary border-2 font-bold font-nimbus text-primary py-2 px-4">
-          {loadingRiddle
-            ? "Loading riddle..."
-            : noActiveRiddle
-            ? "There is no active riddle. Please check back later."
-            : activeRiddle}
-        </p>
-        {transactionButton()}
+      <div className="py-12 justify-items-center">
+        <div className="max-w-lg text-center space-y-6 border-primary border-2 rounded-md p-6 glass-bg">
+          <p className="rounded-md w-full border-primary border-2 font-bold font-nimbus text-primary py-2 px-4">
+            {loadingRiddle
+              ? "Loading riddle..."
+              : noActiveRiddle
+              ? "There is no active riddle. Please check back later."
+              : activeRiddle}
+          </p>
+          <TextField
+            value={userAnswer}
+            onChangeValue={(value) => setUserAnswer(value)}
+          />
+          {transactionButton()}
+        </div>
       </div>
       <ConnectWalletModal
         open={connectWalletModalOpen}
