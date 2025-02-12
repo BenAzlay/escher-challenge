@@ -5,10 +5,14 @@ import useStore from "@/store/useStore";
 import Modal from "@/components/Modal";
 import { FC } from "react";
 
-const ConnectWalletModal: FC = () => {
+interface ConnectWalletModalProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ open, onClose }) => {
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
-  const { walletDialogOpen, setWalletDialogOpen } = useStore();
 
   const handleConnect = async (connector: Connector) => {
     connect(
@@ -19,7 +23,7 @@ const ConnectWalletModal: FC = () => {
           disconnect();
         },
         onSuccess: () => {
-          setWalletDialogOpen(false);
+          onClose();
         },
       }
     );
@@ -41,11 +45,7 @@ const ConnectWalletModal: FC = () => {
   };
 
   return (
-    <Modal
-      visible={walletDialogOpen}
-      title={"Select a Wallet"}
-      onClose={() => setWalletDialogOpen(false)}
-    >
+    <Modal visible={open} title={"Select a Wallet"} onClose={onClose}>
       <ul>
         {connectors.map((connector) => (
           <li key={connector.id} className="mb-2">

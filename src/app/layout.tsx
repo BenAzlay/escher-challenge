@@ -1,11 +1,7 @@
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
 
-import Navbar from "@/components/Navbar";
-import BottomNav from "@/components/BottomNav";
-import ConnectWalletModal from "@/components/ConnectWalletModal";
 import ClientProviders from "./ClientProviders";
-import DisclaimerModal from "@/components/DisclaimerModal";
 import DisclaimerWrapper from "@/components/DisclaimerWrapper";
 import { Metadata, Viewport } from "next";
 
@@ -69,10 +65,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ClientProviders>
           <DisclaimerWrapper>
-            <Navbar />
             <main className="mb-16 sm:mb-0">{children}</main>
-            <BottomNav />
-            <ConnectWalletModal />
           </DisclaimerWrapper>
         </ClientProviders>
       </body>

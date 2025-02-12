@@ -6,7 +6,7 @@ import Offer from "@/app/types/Offer";
 import { convertQuantityFromWei } from "@/utils/utilFunc";
 import CONSTANTS from "@/utils/constants";
 import TransactionButton from "./TransactionButton";
-import { abi as RiddlrProtocolAbi } from "@/abi/RiddlrProtocolAbi";
+import { abi as RiddlrProtocolAbi } from "@/abi/RiddlrAbi";
 import SignInButton from "./SignInButton";
 import useStore from "@/store/useStore";
 import { base } from "viem/chains";

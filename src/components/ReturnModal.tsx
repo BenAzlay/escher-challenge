@@ -8,13 +8,13 @@ import {
   convertQuantityToWei,
 } from "@/utils/utilFunc";
 import { ethers } from "ethers";
-import { getTokenAllowance, getTokenBalance } from "@/utils/tokenMethods";
+import { getTokenAllowance, getTokenBalance } from "@/utils/contractMethods";
 import CONSTANTS from "@/utils/constants";
 import { useAsyncEffect } from "@/utils/customHooks";
 import Decimal from "decimal.js";
 import RangeSlider from "./RangeSlider";
 import TransactionButton from "./TransactionButton";
-import { abi as RiddlrProtocolAbi } from "@/abi/RiddlrProtocolAbi";
+import { abi as RiddlrProtocolAbi } from "@/abi/RiddlrAbi";
 import SignInButton from "./SignInButton";
 import { erc20Abi, zeroAddress } from "viem";
 import { Deposit } from "@/utils/queries";

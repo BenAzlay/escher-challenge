@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { base } from "viem/chains";
+import { sepolia } from "viem/chains";
 import { useSwitchChain } from "wagmi";
 
 const SwitchChainButton: React.FC = () => {
@@ -10,9 +10,9 @@ const SwitchChainButton: React.FC = () => {
   return (
     <button
       className="btn btn-primary w-full"
-      onClick={() => switchChain({ chainId: base.id })}
+      onClick={() => switchChain({ chainId: sepolia.id })}
     >
-      SWITCH TO BASE
+      SWITCH TO SEPOLIA
     </button>
   );
 };

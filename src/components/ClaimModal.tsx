@@ -10,7 +10,7 @@ import CONSTANTS from "@/utils/constants";
 import Decimal from "decimal.js";
 import RangeSlider from "./RangeSlider";
 import TransactionButton from "./TransactionButton";
-import { abi as RiddlrProtocolAbi } from "@/abi/RiddlrProtocolAbi";
+import { abi as RiddlrProtocolAbi } from "@/abi/RiddlrAbi";
 import SignInButton from "./SignInButton";
 import useStore from "@/store/useStore";
 import SwitchChainButton from "./SwitchChainButton";
