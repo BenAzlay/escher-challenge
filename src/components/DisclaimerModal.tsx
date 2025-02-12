@@ -9,18 +9,18 @@ const DisclaimerModal = ({ onAccept }: { onAccept: () => void }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="modal-box max-w-2xl p-6 bg-base-200 rounded-lg shadow-lg">
         <h2 className="text-xl font-bold text-primary">
-          🚨 Important Notice for Riskophobes
+          🚨 Important Notice for Riddlrs
         </h2>
 
         <p className="mt-3 text-gray-300">
-          Welcome to <strong>Riskophobe</strong>, a decentralized options
+          Welcome to <strong>Riddlr</strong>, a decentralized options
           trading platform. Before proceeding, please read the following
           disclaimer carefully:
         </p>
 
         <ul className="mt-4 list-inside text-gray-300 space-y-2">
           <li>
-            💡 <strong>No Financial Advice:</strong> Riskophobe does not provide
+            💡 <strong>No Financial Advice:</strong> Riddlr does not provide
             investment, financial, or legal advice. Your decisions are solely
             your responsibility.
           </li>
@@ -40,7 +40,7 @@ const DisclaimerModal = ({ onAccept }: { onAccept: () => void }) => {
             in your jurisdiction.
           </li>
           <li>
-            🔗 <strong>Non-Custodial:</strong> Riskophobe does not hold or
+            🔗 <strong>Non-Custodial:</strong> Riddlr does not hold or
             manage funds on behalf of users. You maintain full control over your
             assets.
           </li>

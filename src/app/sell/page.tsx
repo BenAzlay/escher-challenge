@@ -15,7 +15,7 @@ import ERC20Token from "../types/ERC20Token";
 import TokensDropdown from "@/components/TokensDropdown";
 import TokenAmountField from "@/components/TokenAmountField";
 import Decimal from "decimal.js";
-import { abi as RiskophobeProtocolAbi } from "@/abi/RiskophobeProtocolAbi";
+import { abi as RiddlrProtocolAbi } from "@/abi/RiddlrProtocolAbi";
 import { erc20Abi, zeroAddress } from "viem";
 import {
   getTokenAllowance,
@@ -169,7 +169,7 @@ const Sell = () => {
     contractAddress: soldToken?.address ?? zeroAddress,
     functionName: "approve",
     args: [
-      CONSTANTS.RISKOPHOBE_CONTRACT as `0x${string}`,
+      CONSTANTS.RIDDLR_CONTRACT as `0x${string}`,
       BigInt(soldTokenAmountWei),
     ],
     onSuccess: async () => {
@@ -211,8 +211,8 @@ const Sell = () => {
     isPending: createOfferIsPending,
     executeTransaction: executeCreateOfferTransaction,
   } = useContractTransaction({
-    abi: RiskophobeProtocolAbi,
-    contractAddress: CONSTANTS.RISKOPHOBE_CONTRACT,
+    abi: RiddlrProtocolAbi,
+    contractAddress: CONSTANTS.RIDDLR_CONTRACT,
     functionName: "createOffer",
     args: getCreateOfferArgs(),
     onSuccess: async () => {
@@ -250,7 +250,7 @@ const Sell = () => {
     await getTokenAllowance(
       soldToken?.address,
       connectedAddress,
-      CONSTANTS.RISKOPHOBE_CONTRACT
+      CONSTANTS.RIDDLR_CONTRACT
     );
 
   const soldTokenBalanceAndAllowanceGetter = async (): Promise<

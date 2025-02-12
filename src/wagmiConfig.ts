@@ -9,9 +9,9 @@ export const config = createConfig({
       showQrModal: true,
       projectId: "04d04d61ec633ddec6850161afd3c58e",
       metadata: {
-        name: "Riskophobe",
+        name: "Riddlr",
         description: "Invest Risk-Free. Get Money Back.",
-        url: "https://riskophobe.com",
+        url: "https://riddlr.com",
         icons: ['/icons/icon-512x512.png'],
       },
     })

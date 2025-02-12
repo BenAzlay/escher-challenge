@@ -6,7 +6,7 @@ import Offer from "@/app/types/Offer";
 import { convertQuantityFromWei, convertQuantityToWei } from "@/utils/utilFunc";
 import CONSTANTS from "@/utils/constants";
 import TransactionButton from "./TransactionButton";
-import { abi as RiskophobeProtocolAbi } from "@/abi/RiskophobeProtocolAbi";
+import { abi as RiddlrProtocolAbi } from "@/abi/RiddlrProtocolAbi";
 import SignInButton from "./SignInButton";
 import useStore from "@/store/useStore";
 import { base } from "viem/chains";
@@ -61,7 +61,7 @@ const AddModal: FC<AddModalProps> = ({ visible, onClose, offer }) => {
     await getTokenAllowance(
       soldToken?.address,
       connectedAddress,
-      CONSTANTS.RISKOPHOBE_CONTRACT
+      CONSTANTS.RIDDLR_CONTRACT
     );
 
   const soldTokenBalanceAndAllowanceGetter = async (): Promise<
@@ -107,7 +107,7 @@ const AddModal: FC<AddModalProps> = ({ visible, onClose, offer }) => {
     contractAddress: soldToken?.address ?? zeroAddress,
     functionName: "approve",
     args: [
-      CONSTANTS.RISKOPHOBE_CONTRACT as `0x${string}`,
+      CONSTANTS.RIDDLR_CONTRACT as `0x${string}`,
       BigInt(amountToAddWei),
     ],
     onSuccess: async () => {
@@ -126,8 +126,8 @@ const AddModal: FC<AddModalProps> = ({ visible, onClose, offer }) => {
     isPending: addSoldTokensIsPending,
     executeTransaction: executeAddSoldTokensTransaction,
   } = useContractTransaction({
-    abi: RiskophobeProtocolAbi,
-    contractAddress: CONSTANTS.RISKOPHOBE_CONTRACT as `0x${string}`,
+    abi: RiddlrProtocolAbi,
+    contractAddress: CONSTANTS.RIDDLR_CONTRACT as `0x${string}`,
     functionName: "addSoldTokens",
     args: [BigInt(offerId), BigInt(amountToAddWei)],
     onSuccess: async () => {

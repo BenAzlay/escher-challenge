@@ -1,6 +1,6 @@
 const CONSTANTS = {
   // The following addresses are deployed on Base (id: 8453)
-  RISKOPHOBE_CONTRACT: "0x0bBEeEab55594F1A03A2b34A6e454fb1d85519e4",
+  RIDDLR_CONTRACT: "0x0bBEeEab55594F1A03A2b34A6e454fb1d85519e4",
   TOKENS: [
     // WETH
     {
@@ -18,8 +18,8 @@ const CONSTANTS = {
       priceFeedAddress: "0x64c911996D3c6aC71f9b455B1E8E7266BcbD848F",
     }
   ],
-  RISKOPHOBE_SUBGRAPH_ENDPOINT:
-    "https://api.studio.thegraph.com/query/27003/riskophobe-base/version/latest",
+  RIDDLR_SUBGRAPH_ENDPOINT:
+    "https://api.studio.thegraph.com/query/27003/riddlr-base/version/latest",
 };
 
 export default CONSTANTS;

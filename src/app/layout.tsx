@@ -12,32 +12,32 @@ import { Metadata, Viewport } from "next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Riskophobe | Options for Crypto",
+  title: "Riddlr | Onchain Riddles",
   description: "Invest in Tokens Risk-Free. Return it anytime. Get Money Back.",
   keywords:
-    "crypto options, Ethereum options, DeFi, risk-free investing, Base, DeFi, decentralized finance",
-  metadataBase: new URL("https://riskophobe.com"),
+    "riddles",
+  metadataBase: new URL("https://riddlr.com"),
   openGraph: {
-    title: "Riskophobe | Options for Crypto",
+    title: "Riddlr | Onchain Riddles",
     description:
       "Invest in Tokens Risk-Free. Return it anytime. Get Money Back.",
-    url: "https://riskophobe.com",
-    siteName: "Riskophobe",
+    url: "https://riddlr.com",
+    siteName: "Riddlr",
     type: "website",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Riskophobe platform for crypto options",
+        alt: "Riddlr platform for onchain riddles",
       },
     ],
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    site: "@Riskophobe",
-    title: "Riskophobe | Options for Crypto",
+    site: "@Riddlr",
+    title: "Riddlr | Onchain Riddles",
     description:
       "Invest in Tokens Risk-Free. Return it anytime. Get Money Back.",
     images: ["/og-image.png"],
@@ -48,10 +48,10 @@ export const metadata: Metadata = {
     apple: "/icons/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
-  creator: "Riskophobe Team",
-  applicationName: "Riskophobe",
+  creator: "Riddlr Team",
+  applicationName: "Riddlr",
   generator: "Next.js",
-  publisher: "Riskophobe",
+  publisher: "Riddlr",
   category: "Finance, Decentralized Finance",
 };
 
@@ -65,7 +65,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="riskophobe">
+    <html lang="en" data-theme="riddlr">
       <body className={inter.className}>
         <ClientProviders>
           <DisclaimerWrapper>

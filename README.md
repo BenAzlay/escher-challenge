@@ -1,48 +1,24 @@
-# Riskophobe
+# Riddlr
 
-Riskophobe is a decentralized application (dApp) that introduces options to the cryptocurrency space, enabling users to buy tokens with the flexibility to return them and get their money back. This innovative approach empowers users to better manage their financial exposure and risk within the DeFi ecosystem.
+Riddlr is a dApp for solving riddles.
 
 ---
 
-## Features
-
-- **Options Functionality**: Buy tokens with the assurance of returning them for collateral.
-- **Flexibility**: Empower users to reclaim collateral under specific conditions.
-- **Transparency**: Built on Ethereum's Base Layer to ensure trust and security.
-
 ### Smart Contract Address
 
-The Riskophobe protocol is deployed on the Base network with the following address:
+The Riddlr protocol is deployed on the Sepolia network with the following address:
 
-**`0x0bBEeEab55594F1A03A2b34A6e454fb1d85519e4`**
+**`0x79b4a4D965893525FFEd75dC657046DB653D084b`**
 
 ### Live DApp
 
-Access the live dApp here: [Riskophobe](https://riskophobe.com/)
+Access the live dApp here: [Riddlr](https://riddlr.com/)
 
 ---
 
 ## Installation and Running Locally
 
 Follow the steps below to set up the project locally:
-
-### Prerequisites
-
-Ensure you have the following installed:
-
-- [Node.js](https://nodejs.org/) (version 16 or higher)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-- [Git](https://git-scm.com/)
-
-### Clone the Repository
-
-```bash
-# Clone the repository
-$ git clone https://github.com/your-repo/riskophobe.git
-
-# Navigate to the project directory
-$ cd riskophobe
-```
 
 ### Install Dependencies
 
@@ -118,29 +94,6 @@ $ yarn lint
 
 ---
 
-## Smart Contract Details
-
-Riskophobe’s smart contract is deployed on the Base network and supports the following operations:
-
-- **Create Offer**: Establish a new option offer.
-- **Buy Tokens**: Participate in an offer by purchasing tokens.
-- **Return Tokens**: Redeem collateral by returning purchased tokens.
-- **Claim Fees**: Collect fees accrued from offers.
-
----
-
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
-
-## Contribution
-
-Contributions are welcome! Please follow the steps below to contribute:
-
-1. Fork the repository.
-2. Create a feature branch: `git checkout -b feature-name`
-3. Commit your changes: `git commit -m 'Add feature description'`
-4. Push to the branch: `git push origin feature-name`
-5. Create a pull request.

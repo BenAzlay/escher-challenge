@@ -82,7 +82,7 @@ export const convertQuantityFromWei = (
 };
 
 /**
- * Calculates the exchange rate for the Riskophobe Protocol.
+ * Calculates the exchange rate for the Riddlr Protocol.
  * @param soldTokenAmount - The amount of sold tokens.
  * @param collateralTokenAmount - The amount of collateral tokens.
  * @returns The calculated exchange rate.

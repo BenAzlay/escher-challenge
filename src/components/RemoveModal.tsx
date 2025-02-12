@@ -6,7 +6,7 @@ import Offer from "@/app/types/Offer";
 import { convertQuantityFromWei } from "@/utils/utilFunc";
 import CONSTANTS from "@/utils/constants";
 import TransactionButton from "./TransactionButton";
-import { abi as RiskophobeProtocolAbi } from "@/abi/RiskophobeProtocolAbi";
+import { abi as RiddlrProtocolAbi } from "@/abi/RiddlrProtocolAbi";
 import SignInButton from "./SignInButton";
 import useStore from "@/store/useStore";
 import { base } from "viem/chains";
@@ -61,8 +61,8 @@ const RemoveModal: FC<RemoveModalProps> = ({ visible, onClose, offer }) => {
     isPending: removeOfferIsPending,
     executeTransaction: executeRemoveOfferTransaction,
   } = useContractTransaction({
-    abi: RiskophobeProtocolAbi,
-    contractAddress: CONSTANTS.RISKOPHOBE_CONTRACT as `0x${string}`,
+    abi: RiddlrProtocolAbi,
+    contractAddress: CONSTANTS.RIDDLR_CONTRACT as `0x${string}`,
     functionName: "removeOffer",
     args: [BigInt(offerId)],
     onSuccess: () => {

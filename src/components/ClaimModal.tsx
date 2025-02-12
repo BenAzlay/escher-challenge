@@ -10,7 +10,7 @@ import CONSTANTS from "@/utils/constants";
 import Decimal from "decimal.js";
 import RangeSlider from "./RangeSlider";
 import TransactionButton from "./TransactionButton";
-import { abi as RiskophobeProtocolAbi } from "@/abi/RiskophobeProtocolAbi";
+import { abi as RiddlrProtocolAbi } from "@/abi/RiddlrProtocolAbi";
 import SignInButton from "./SignInButton";
 import useStore from "@/store/useStore";
 import SwitchChainButton from "./SwitchChainButton";
@@ -72,8 +72,8 @@ const ClaimModal: FC<ClaimModalProps> = ({ visible, onClose, creatorFee }) => {
     isPending: claimFeesIsPending,
     executeTransaction: executeClaimFeesTransaction,
   } = useContractTransaction({
-    abi: RiskophobeProtocolAbi,
-    contractAddress: CONSTANTS.RISKOPHOBE_CONTRACT as `0x${string}`,
+    abi: RiddlrProtocolAbi,
+    contractAddress: CONSTANTS.RIDDLR_CONTRACT as `0x${string}`,
     functionName: "claimFees",
     args: [token.address as `0x${string}`, BigInt(claimAmountWei)],
     onSuccess: () => {

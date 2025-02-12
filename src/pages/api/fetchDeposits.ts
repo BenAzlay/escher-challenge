@@ -3,7 +3,7 @@ import CONSTANTS from "@/utils/constants";
 import { GraphQLClient } from "graphql-request";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const client = new GraphQLClient(CONSTANTS.RISKOPHOBE_SUBGRAPH_ENDPOINT, {
+const client = new GraphQLClient(CONSTANTS.RIDDLR_SUBGRAPH_ENDPOINT, {
   headers: {
     Authorization: `Bearer ${process.env.REACT_APP_GRAPHQL_API_KEY}`,
   },

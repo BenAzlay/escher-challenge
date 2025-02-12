@@ -17,7 +17,7 @@ import { useAsyncEffect } from "@/utils/customHooks";
 import Decimal from "decimal.js";
 import RangeSlider from "./RangeSlider";
 import TransactionButton from "./TransactionButton";
-import { abi as RiskophobeProtocolAbi } from "@/abi/RiskophobeProtocolAbi";
+import { abi as RiddlrProtocolAbi } from "@/abi/RiddlrProtocolAbi";
 import SignInButton from "./SignInButton";
 import { erc20Abi, zeroAddress } from "viem";
 import useStore from "@/store/useStore";
@@ -118,7 +118,7 @@ const BuyModal: FC<BuyModalProps> = ({ visible, onClose, offer, deposit }) => {
     await getTokenAllowance(
       collateralToken?.address,
       connectedAddress,
-      CONSTANTS.RISKOPHOBE_CONTRACT
+      CONSTANTS.RIDDLR_CONTRACT
     );
 
   const collateralBalanceAndAllowanceGetter = async (): Promise<
@@ -171,7 +171,7 @@ const BuyModal: FC<BuyModalProps> = ({ visible, onClose, offer, deposit }) => {
     contractAddress: collateralToken?.address ?? zeroAddress,
     functionName: "approve",
     args: [
-      CONSTANTS.RISKOPHOBE_CONTRACT as `0x${string}`,
+      CONSTANTS.RIDDLR_CONTRACT as `0x${string}`,
       BigInt(collateralInWei),
     ],
     onSuccess: async () => {
@@ -190,8 +190,8 @@ const BuyModal: FC<BuyModalProps> = ({ visible, onClose, offer, deposit }) => {
     isPending: buyTokensIsPending,
     executeTransaction: executeBuyTokensTransaction,
   } = useContractTransaction({
-    abi: RiskophobeProtocolAbi,
-    contractAddress: CONSTANTS.RISKOPHOBE_CONTRACT as `0x${string}`,
+    abi: RiddlrProtocolAbi,
+    contractAddress: CONSTANTS.RIDDLR_CONTRACT as `0x${string}`,
     functionName: "buyTokens",
     args: [BigInt(offerId), BigInt(collateralInWei), BigInt(0)],
     onSuccess: async () => {
