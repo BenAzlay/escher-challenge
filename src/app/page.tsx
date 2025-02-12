@@ -116,17 +116,30 @@ function App() {
     }
   }, [getActiveRiddle]);
 
-  const getWinner = async (): Promise<string> => {
+  const getRiddleSuccess = async (): Promise<boolean> => {
     try {
-      return await readContract(config, {
-        address: RIDDLR_CONTRACT as `0x${string}`,
-        abi: RiddlrAbi,
-        chainId: 11155111,
-        functionName: "winner",
+      const rawResults = await readContracts(config, {
+        contracts: [
+          {
+            address: RIDDLR_CONTRACT as `0x${string}`,
+            abi: RiddlrAbi,
+            chainId: 11155111,
+            functionName: "winner",
+          },
+          {
+            address: RIDDLR_CONTRACT as `0x${string}`,
+            abi: RiddlrAbi,
+            chainId: 11155111,
+            functionName: "isActive",
+          },
+        ],
       });
+
+      const [winner, isActive] = rawResults.map(({ result }) => result);
+      return !isActive && compareEthereumAddresses(connectedAddress, winner);
     } catch (error) {
-      console.error("getWinner ERROR:", error);
-      return ZeroAddress;
+      console.error("getRiddleSuccess ERROR:", error);
+      return false;
     }
   };
 
@@ -143,9 +156,9 @@ function App() {
       // Reset input
       setUserAnswer("");
       // Check answer by fetching isActive
-      const winner = await getWinner();
+      const success = await getRiddleSuccess();
       // If isActive is false, bot sets new riddle
-      if (compareEthereumAddresses(connectedAddress, winner)) {
+      if (success) {
         window.alert("Congratulations! That was the correct answer");
         return await getActiveRiddle();
       } else {
