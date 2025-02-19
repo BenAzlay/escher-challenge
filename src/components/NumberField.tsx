@@ -12,8 +12,8 @@ const NumberField: FC<NumberFieldProps> = ({
   error = null,
 }) => {
   const handleInputChange = (value: string) => {
-    // Allow only numbers and a single decimal point
-    if (/^\d*\.?\d*$/.test(value)) {
+    // Allow only digits (no decimal points)
+    if (/^\d*$/.test(value)) {
       onChangeValue(value);
     }
   };
