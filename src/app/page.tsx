@@ -38,6 +38,9 @@ function App() {
   useEffect(() => {
     async function fetchHistoricalData() {
       const response = await fetch("/api/getEthHistoricalPrices");
+
+      if (response.status !== 200) return;
+
       const data = await response.json();
 
       // Format data for Recharts
@@ -144,7 +147,8 @@ function App() {
           {transactionButton()}
         </div>
       </div>
-      <div className="px-2 sm:px-12">
+      <div className="px-2 sm:px-12 space-y-4">
+        <h2 className="text-xl font-bold text-primary">ETH/USD price</h2>
         <ResponsiveContainer width="100%" height={400}>
           <LineChart data={chartData}>
             <XAxis dataKey="time" />
