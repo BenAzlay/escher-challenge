@@ -3,49 +3,33 @@ import { Inter } from "next/font/google";
 
 import ClientProviders from "./ClientProviders";
 import { Metadata, Viewport } from "next";
+import Navbar from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Riddlr | Onchain Riddles",
-  description: "Invest in Tokens Risk-Free. Return it anytime. Get Money Back.",
+  title: "Escher | Challenge",
+  description: "Challenge.",
   keywords: "riddles",
-  metadataBase: new URL("https://riddlr.com"),
+  metadataBase: new URL("https://escher.com"),
   openGraph: {
-    title: "Riddlr | Onchain Riddles",
+    title: "Escher | Challenge",
     description:
-      "Invest in Tokens Risk-Free. Return it anytime. Get Money Back.",
-    url: "https://riddlr.com",
-    siteName: "Riddlr",
+      "Challenge",
+    url: "https://escher.com",
+    siteName: "Escher",
     type: "website",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Riddlr platform for onchain riddles",
-      },
-    ],
     locale: "en_US",
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@Riddlr",
-    title: "Riddlr | Onchain Riddles",
-    description:
-      "Invest in Tokens Risk-Free. Return it anytime. Get Money Back.",
-    images: ["/og-image.png"],
   },
   robots: "index, follow",
   icons: {
     icon: "/favicon.ico",
-    apple: "/icons/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
-  creator: "Riddlr Team",
-  applicationName: "Riddlr",
+  creator: "Benjamin Azoulay",
+  applicationName: "Escher",
   generator: "Next.js",
-  publisher: "Riddlr",
+  publisher: "Escher",
   category: "Finance, Decentralized Finance",
 };
 
@@ -59,9 +43,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="riddlr">
+    <html lang="en" data-theme="escher">
       <body className={inter.className}>
         <ClientProviders>
+          <Navbar />
           <main className="mb-16 sm:mb-0">{children}</main>
         </ClientProviders>
       </body>

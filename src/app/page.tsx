@@ -1,169 +1,101 @@
 "use client";
 
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { abi as RiddlrAbi } from "@/abi/RiddlrAbi";
-import { readContract, readContracts } from "wagmi/actions";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { abi as EscherAbi } from "@/abi/EscherAbi";
+import { readContract } from "wagmi/actions";
 import { config } from "@/wagmiConfig";
 import CONSTANTS from "@/utils/constants";
-import { ethers, ZeroAddress } from "ethers";
 import SwitchChainButton from "@/components/SwitchChainButton";
 import { useAccount } from "wagmi";
 import { sepolia } from "viem/chains";
 import TransactionButton from "@/components/TransactionButton";
 import useContractTransaction from "@/utils/useContractTransaction";
-import ConnectWalletModal from "@/components/ConnectWalletModal";
-import TextField from "@/components/TextField";
-import { compareEthereumAddresses } from "@/utils/utilFunc";
+import { useWallet } from "./ClientProviders";
+import NumberField from "@/components/NumberField";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
-const { RIDDLR_CONTRACT } = CONSTANTS;
+const { ESCHER_CONTRACT } = CONSTANTS;
 
 function App() {
   const { address: connectedAddress, chainId: connectedChainId } = useAccount();
 
-  const [activeRiddle, setActiveRiddle] = useState<string>("");
-  const [loadingRiddle, setLoadingRiddle] = useState<boolean>(true);
-  const [userAnswer, setUserAnswer] = useState<string>("");
+  const { setConnectWalletModalOpen } = useWallet();
+
+  const [favoriteNumber, setFavoriteNumber] = useState<number>(0);
+  const [loadingRiddle, setLoadingNumber] = useState<boolean>(true);
+  const [userNumber, setUserNumber] = useState<string>("");
   const [txError, setTxError] = useState<string | null>(null);
-  const [connectWalletModalOpen, setConnectWalletModalOpen] =
-    useState<boolean>(false);
-  const hasFetchedRiddle = useRef(false); // Prevents duplicate fetch on mount
+  const hasFetchedNumber = useRef(false); // Prevents duplicate fetch on mount
+  const [chartData, setChartData] = useState([]);
 
-  const noActiveRiddle = useMemo(() => !activeRiddle.length, [activeRiddle]);
+  useEffect(() => {
+    async function fetchHistoricalData() {
+      const response = await fetch("/api/getEthHistoricalPrices");
+      const data = await response.json();
 
-  const setRiddle = async (
-    riddle: string,
-    answer: string
-  ): Promise<boolean> => {
-    const answerHash = ethers.keccak256(ethers.toUtf8Bytes(answer)); // Hashing the answer
+      // Format data for Recharts
+      const formattedData = data.map(
+        (entry: { time: number; value: number }) => ({
+          time: new Date(entry.time * 1000).toLocaleDateString(),
+          price: entry.value,
+        })
+      );
 
-    const response = await fetch("/api/setRiddle", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ riddle, answerHash }),
-    });
-
-    const data = await response.json();
-    if (data.success) {
-      console.log("Transaction Hash:", data.txHash);
-    } else {
-      console.error("Error:", data.error);
+      setChartData(formattedData);
     }
-    return data.success;
-  };
+
+    fetchHistoricalData();
+  }, []);
 
   // Gets the active riddle and sets it in the store
   // If there is no active riddle, the bot submits a new one with setRiddle
-  const getActiveRiddle = async (): Promise<void> => {
+  const getFavoriteNumber = async (): Promise<void> => {
     try {
-      setLoadingRiddle(true);
-      const rawResults = await readContracts(config, {
-        contracts: [
-          {
-            address: RIDDLR_CONTRACT as `0x${string}`,
-            abi: RiddlrAbi,
-            chainId: 11155111,
-            functionName: "riddle",
-          },
-          {
-            address: RIDDLR_CONTRACT as `0x${string}`,
-            abi: RiddlrAbi,
-            chainId: 11155111,
-            functionName: "isActive",
-          },
-        ],
+      setLoadingNumber(true);
+      const result = await readContract(config, {
+        address: ESCHER_CONTRACT as `0x${string}`,
+        abi: EscherAbi,
+        chainId: 11155111,
+        functionName: "retrieve",
       });
 
-      const [riddle, isActive] = rawResults.map(({ result }) => result);
-
-      // IF there is an active riddle, set it in the store
-      if (!!isActive) {
-        setActiveRiddle(riddle as string);
-        return;
-      }
-      // ELSE perform bot transaction to submit a new riddle
-      const { RIDDLES: riddlesList } = CONSTANTS;
-      let newRiddleIndex: number;
-      const activeRiddleIndex = riddlesList.findIndex(
-        ({ question }) => question === riddle
-      );
-      // If no riddle was ever set OR we had reached the last riddle of the list, go back to first riddle of the list
-      // Else increment index to get to next riddle in the list
-      if (
-        activeRiddleIndex < 0 ||
-        activeRiddleIndex === riddlesList.length - 1
-      ) {
-        newRiddleIndex = 0;
-      } else {
-        newRiddleIndex = activeRiddleIndex + 1;
-      }
-      const { question: newQuestion, answer } = riddlesList[newRiddleIndex];
-      const success = await setRiddle(newQuestion, answer);
-      if (!success) throw new Error("Set riddle tx failed");
-      // If success, update activeRiddle state
-      setActiveRiddle(newQuestion);
+      setFavoriteNumber(Number(result));
     } catch (error) {
-      console.error("getActiveRiddle ERROR:", error);
+      console.error("getFavoriteNumber ERROR:", error);
     } finally {
-      setLoadingRiddle(false);
+      setLoadingNumber(false);
     }
   };
 
-  // Run `getActiveRiddle` only once on mount
+  // Run `getFavoriteNumber` only once on mount
   useEffect(() => {
-    if (!hasFetchedRiddle.current) {
-      hasFetchedRiddle.current = true;
-      getActiveRiddle();
+    if (!hasFetchedNumber.current) {
+      hasFetchedNumber.current = true;
+      getFavoriteNumber();
     }
-  }, [getActiveRiddle]);
+  }, [getFavoriteNumber]);
 
-  const getRiddleSuccess = async (): Promise<boolean> => {
-    try {
-      const rawResults = await readContracts(config, {
-        contracts: [
-          {
-            address: RIDDLR_CONTRACT as `0x${string}`,
-            abi: RiddlrAbi,
-            chainId: 11155111,
-            functionName: "winner",
-          },
-          {
-            address: RIDDLR_CONTRACT as `0x${string}`,
-            abi: RiddlrAbi,
-            chainId: 11155111,
-            functionName: "isActive",
-          },
-        ],
-      });
-
-      const [winner, isActive] = rawResults.map(({ result }) => result);
-      return !isActive && compareEthereumAddresses(connectedAddress, winner as string);
-    } catch (error) {
-      console.error("getRiddleSuccess ERROR:", error);
-      return false;
-    }
-  };
-
-  // submitAnswer tx hook
+  // storeNumber tx hook
   const {
-    isPending: submitAnswerIsPending,
-    executeTransaction: executeSubmitAnswerTransaction,
+    isPending: storeNumberIsPending,
+    executeTransaction: executeStoreNumberTransaction,
   } = useContractTransaction({
-    abi: RiddlrAbi,
-    contractAddress: CONSTANTS.RIDDLR_CONTRACT as `0x${string}`,
-    functionName: "submitAnswer",
-    args: [userAnswer.toLowerCase()],
+    abi: EscherAbi,
+    contractAddress: CONSTANTS.ESCHER_CONTRACT as `0x${string}`,
+    functionName: "store",
+    args: [BigInt(userNumber)],
     onSuccess: async () => {
       // Reset input
-      setUserAnswer("");
-      // Check answer by fetching isActive
-      const success = await getRiddleSuccess();
-      // If isActive is false, bot sets new riddle
-      if (success) {
-        window.alert("Congratulations! That was the correct answer");
-        return await getActiveRiddle();
-      } else {
-        window.alert("Wrong answer, try again");
-      }
+      setUserNumber("");
+      // Fetch new number from chain
+      getFavoriteNumber();
     },
     onError: (errorMessage) => {
       setTxError(errorMessage);
@@ -182,12 +114,12 @@ function App() {
     if (connectedChainId !== sepolia.id) return <SwitchChainButton />;
     return (
       <TransactionButton
-        disabled={submitAnswerIsPending || loadingRiddle || !userAnswer.length}
-        onClickAction={executeSubmitAnswerTransaction}
-        loading={submitAnswerIsPending}
+        disabled={storeNumberIsPending || loadingRiddle || !userNumber.length}
+        onClickAction={executeStoreNumberTransaction}
+        loading={storeNumberIsPending}
         errorMessage={txError}
       >
-        SUBMIT ANSWER
+        STORE NUMBER
       </TransactionButton>
     );
   };
@@ -196,24 +128,32 @@ function App() {
     <Fragment>
       <div className="py-12 justify-items-center">
         <div className="max-w-lg text-center space-y-6 border-primary border-2 rounded-md p-6 glass-bg">
-          <p className="rounded-md w-full border-primary border-2 font-bold font-nimbus text-primary py-2 px-4">
-            {loadingRiddle
-              ? "Loading riddle..."
-              : noActiveRiddle
-              ? "There is no active riddle. Please check back later."
-              : activeRiddle}
+          <p className="rounded-md w-full border-secondary border-2 font-bold font-nimbus text-secondary text-start py-2 px-4">
+            {loadingRiddle ? (
+              "Loading favorite number..."
+            ) : (
+              <span>
+                Your favorite number is: <b>{favoriteNumber}</b>
+              </span>
+            )}
           </p>
-          <TextField
-            value={userAnswer}
-            onChangeValue={(value) => setUserAnswer(value)}
+          <NumberField
+            value={userNumber}
+            onChangeValue={(value) => setUserNumber(value)}
           />
           {transactionButton()}
         </div>
       </div>
-      <ConnectWalletModal
-        open={connectWalletModalOpen}
-        onClose={() => setConnectWalletModalOpen(false)}
-      />
+      <div className="px-2 sm:px-12">
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart data={chartData}>
+            <XAxis dataKey="time" />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="price" stroke="#6B46C1" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </Fragment>
   );
 }

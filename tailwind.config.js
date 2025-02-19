@@ -14,7 +14,7 @@ export default {
   daisyui: {
     themes: [
       {
-        riddlr: {
+        escher: {
           "primary": "#6B46C1", // Purple
           "primary-focus": "#553C9A",
           "secondary": "#9F7AEA", // Light Purple
